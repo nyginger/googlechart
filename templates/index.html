@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top route-documentation fontawesome-i2svg-active fontawesome-i2svg-complete bd-is-clipped-touch">
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=1">
+<title>Numbers:Quantitative Browsing Of Life</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='bulma.css')}}" >
+<script src="{{ url_for('static', filename='jquery.min.js')}}"></script>
+
+
+<style>
+  img {
+  max-width: 100%
+  }
+  input, textarea {
+  max-width:100%
+  }
+  .header {
+  background: url(header.png) 50% no-repeat;
+  background-size: contain
+  }
+
+
+/*Default styles*/
+.related-products li {
+  float: left;
+  width: 50%;
+}
+
+/*Display 3 per row for medium displays (like mobile phones in landscape or smaller tablets)*/
+@media screen and (min-width: 28.75em) {
+  .related-products li {
+    width: 33.3333333%;
+  }
+}
+/*Display 6 to a row for large displays (like medium tablets and up) */
+@media screen and min-width: 40.5em) {
+  .related-products li {
+    width: 16.6666667%;
+  }
+}
+
+</style>
+<script type="text/javascript" src="{{url_for('static', filename='loader.js')}}"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable(
+      {{dt_out|safe}}
+    );
+    var options = {
+      title: 'Company Performance',
+      legend: { position: 'top' }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('my_chart'));
+    chart.draw(data, options);
+  }
+
+    $('#sel_ticker1').bind('change',function(){
+        var ticker=$('#sel_ticker1 option:selected').val();
+        var new_chart_url= window.location.protocol+'//' + window.location.hostname + ':5000/price?ticker=' + ticker;
+        $('#chart1').attr('src',new_chart_url);
+    })
+</script>
+
+</head>
+
+<body>
+
+              
+
+<nav class="navbar is-fixed-top is-light is-transparent" role="navigation" aria-label="dropdown navigation" style="transform: translateY(0px); ">
+    
+
+        <div class="navbar-brand">
+            <div class="navbar-item">
+                    <h6 class="title is-6">Finance Markets</h6>
+            </div>
+            <div class="navbar-item">
+                <div class="select">
+                    <select id="sel_ticker1">
+                        <option value="aapl" selected>Apple</option>
+                        <option value="msft">Microsoft</option>
+                    </select>
+
+                </div>
+            </div>
+
+            <div id="sub_menu_btn" class="navbar-burger burger" data-target="navMenuDoc">
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+        </div>
+
+            <div id="navMenuDoc" class="navbar-menu">
+                    <div class="navbar-start">
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                Stocks
+                            </a>
+                            <div class="navbar-dropdown">
+                                    <a class="navbar-item">
+                                        Overview
+                                    </a>
+                                    <a class="navbar-item">
+                                        Elements
+                                    </a>
+                                    <a class="navbar-item">
+                                        Components
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+
+    </nav>
+
+            <div id="chart_area" class="container is-fluid">
+    
+              <div id="my_chart" style="min-width:100%;min-height: 350px"></div>
+            </div>
+
+
+    <script>
+
+        $('#sub_menu_btn').bind('click',function(){
+            if ($('#sub_menu_btn').attr('class')=='navbar-burger burger is-active') {
+                $('#navMenuDoc').attr('class','navbar-menu'); 
+                $('#sub_menu_btn').attr('class','navbar-burger burger'); 
+            } else {
+                $('#navMenuDoc').attr('class','navbar-menu is-active'); 
+                $('#sub_menu_btn').attr('class','navbar-burger burger is-active'); 
+            }
+        })
+
+
+    </script>
+
+
+
+  </body>
+</html>
