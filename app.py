@@ -9,6 +9,9 @@ from datetime import datetime, timedelta
 
 app=Flask(__name__)
 
+#Get api key from Quandl
+API_Key=''
+
 @app.route('/price')
 def index():
 	ticker=request.args.get('ticker').upper()
@@ -16,7 +19,7 @@ def index():
 	start_date=(datetime.now()+timedelta(days=-300)).strftime('%Y-%m-%d')
 	print(start_date,end_date)
 	CSV_URL = 'https://www.quandl.com/api/v3/datasets/WIKI/' + ticker \
-					+ '.csv?&api_key=xgnhYnpkFuqTgBDX4bjK&start_date='+start_date+'&end_date='+end_date+'&order=asc&collapse=weekly'
+					+ '.csv?&api_key=' + API_Key + '&start_date='+start_date+'&end_date='+end_date+'&order=asc&collapse=weekly'
 
 	dt_out=[]
 	with requests.Session() as s:
